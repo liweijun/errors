@@ -87,17 +87,17 @@ func (r *ErrorInfo) Warn() *ErrorInfo {
 }
 
 func (r *ErrorInfo) LogWarn(reqId string) *ErrorInfo {
-	log.Std.Output("", log.Lwarn, 2, r.LogMessage())
+	log.Std.Output(reqId, log.Lwarn, 2, r.LogMessage())
 	return r
 }
 
 func (r *ErrorInfo) LogError(reqId string) *ErrorInfo {
-	log.Std.Output("", log.Lerror, 2, r.LogMessage())
+	log.Std.Output(reqId, log.Lerror, 2, r.LogMessage())
 	return r
 }
 
 func (r *ErrorInfo) Log(level int, reqId string) *ErrorInfo {
-	log.Std.Output("", level, 2, r.LogMessage())
+	log.Std.Output(reqId, level, 2, r.LogMessage())
 	return r
 }
 
