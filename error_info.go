@@ -2,10 +2,18 @@ package errors
 
 import (
 	"fmt"
+	"errors"
+	"strings"
 	"github.com/qiniu/log"
 )
 
 const prefix = " ==> "
+
+// --------------------------------------------------------------------
+
+func New(msg string) error {
+	return errors.New(msg)
+}
 
 // --------------------------------------------------------------------
 
@@ -54,7 +62,11 @@ func (r *ErrorInfo) Detail(err error) *ErrorInfo {
 
 func (r *ErrorInfo) Method() (cmd string, ok bool) {
 	if len(r.Cmd) > 0 {
-		cmd, ok = r.Cmd[0].(string)
+		if cmd, ok = r.Cmd[0].(string); ok {
+			if pos := strings.Index(cmd, " "); pos > 1 {
+				cmd = cmd[:pos]
+			}
+		}
 	}
 	return
 }
@@ -67,8 +79,25 @@ func (r *ErrorInfo) LogMessage() string {
 	return detail
 }
 
+// deprecated. please use (*ErrorInfo).LogWarn
+//
 func (r *ErrorInfo) Warn() *ErrorInfo {
 	log.Std.Output("", log.Lwarn, 2, r.LogMessage())
+	return r
+}
+
+func (r *ErrorInfo) LogWarn(reqId string) *ErrorInfo {
+	log.Std.Output("", log.Lwarn, 2, r.LogMessage())
+	return r
+}
+
+func (r *ErrorInfo) LogError(reqId string) *ErrorInfo {
+	log.Std.Output("", log.Lerror, 2, r.LogMessage())
+	return r
+}
+
+func (r *ErrorInfo) Log(level int, reqId string) *ErrorInfo {
+	log.Std.Output("", level, 2, r.LogMessage())
 	return r
 }
 
