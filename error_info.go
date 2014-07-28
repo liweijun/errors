@@ -1,9 +1,10 @@
 package errors
 
 import (
-	"fmt"
 	"errors"
+	"fmt"
 	"strings"
+
 	"github.com/qiniu/log"
 )
 
@@ -18,7 +19,7 @@ func New(msg string) error {
 // --------------------------------------------------------------------
 
 type errorDetailer interface {
-    ErrorDetail() string
+	ErrorDetail() string
 }
 
 func Detail(err error) string {
@@ -115,4 +116,3 @@ func Err(err error) error {
 }
 
 // --------------------------------------------------------------------
-

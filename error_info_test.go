@@ -18,4 +18,3 @@ func TestCmd(t *testing.T) {
 		t.Fatal("Invalid err.LogMessage:", msg)
 	}
 }
-
